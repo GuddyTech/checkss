@@ -1,0 +1,23 @@
+#!groovy
+
+@Library('PSL@LKG')
+
+def jobs = [:]
+
+jobs["VS2019"] = {
+    node ("TOR_Win_GPU_ECS") {
+        dir ("ArgoX") {
+            timestamps {
+              stage ("VS2019-Build") {
+                    checkout scm
+                    bat "git clean -fdx"
+                    bat "if exist build rd /s /q build"
+                    bat "mkdir build"
+                    //bat "cd build && cmake -G \"Visual Studio 16 2019\" .. && cmake --build . --target libArgoX --config Release -j 99"  
+                    bat "cd build && cmake -G "Visual Studio 16 2019"  .. && cmake --build . --target libArgoXTest --config Release -j 99"
+                    bat "cd build && ctest --no-compress-output --output-on-failure -T Test -C Release"                   
+                }
+            }
+        }
+    }
+}
