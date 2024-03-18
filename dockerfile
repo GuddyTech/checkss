@@ -5,7 +5,7 @@ RUN apt install git -y
 RUN apt install python3 -y
 RUN apt install python3-pip -y
 
-COPY  . /app
+COPY  . /app 
 
 WORKDIR /app
 
